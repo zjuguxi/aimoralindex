@@ -1,20 +1,9 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3edbfcad-e4c4-4ace-a98d-864784f327e3/deploy-status)](https://app.netlify.com/sites/aimoralindex/deploys)
+
 # AI Morality Index
 
-This project is designed to display the morality index of three different AI models through a questionnaire. The backend automates the questioning and data collection, while the frontend fetches the data and displays the scores of each AI in a line chart.
+The **AI Morality Index** is a project designed to compare the ethical and legal awareness of three popular AI models: ChatGPT, Claude, and Gemini. By automating the process of posing ethical and legal questions to these AIs and scoring their responses based on predefined criteria, the project offers a clear comparison of their performance.
 
-## Deployment
+This system includes a backend that manages the querying and scoring of AI responses, as well as a frontend that presents the results in an interactive and visually engaging way. The goal of the project is to assess how well each AI model aligns with established moral and legal standards, providing insights into their strengths and weaknesses in these critical areas.
 
-To deploy the application, follow these steps:
-
-1. Build the application for production:
-   ```bash
-   npm run build
-   ```
-
-2. Serve the `build` folder using a static server or deploy it to a hosting service of your choice.
-
-3. Access the application in your browser to view the AI morality index.
-
-## Overview
-
-The AI Morality Index provides insights into the ethical performance of various AI models, allowing users to understand and compare their scores based on a standardized questionnaire.
+The daily scores are updated automatically, enabling ongoing comparison and trend analysis. By evaluating these AI models, the AI Morality Index helps to shed light on the moral and legal decision-making capabilities of modern artificial intelligence.

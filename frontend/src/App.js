@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LineChart, Line, Tooltip, ResponsiveContainer } from 'recharts';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import About from './About';
 
 const AIScoreCard = ({ name, score, history, color }) => (
   <div className="w-full bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-700 rounded-lg overflow-hidden">
@@ -24,6 +27,8 @@ const AIScoreCard = ({ name, score, history, color }) => (
 );
 
 const App = () => {
+  const [activeSection, setActiveSection] = useState('home');
+
   const aiData = [
     {
       name: 'chatGPT',
@@ -58,18 +63,25 @@ const App = () => {
   ];
 
   return (
-    <div className="p-8 bg-gray-900 min-h-screen text-gray-100">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-2 text-center text-blue-300">Generative AI Morality Index</h1>
-        <p className="text-center mb-8 text-gray-400">Updated on 2024-10-01</p>
-        <div className="flex justify-center items-stretch space-x-6">
-          {aiData.map((ai) => (
-            <div key={ai.name} className="w-1/3">
-              <AIScoreCard name={ai.name} score={ai.score} history={ai.history} color={ai.color} />
+    <div className="bg-gray-900 min-h-screen text-gray-100 flex flex-col">
+      <Navbar setActiveSection={setActiveSection} />
+      <div className="flex-grow">
+        {activeSection === 'home' && (
+          <div className="p-8 max-w-4xl mx-auto">
+            <h1 className="text-4xl font-bold mb-2 text-center text-blue-300">Generative AI Morality Index</h1>
+            <p className="text-center mb-8 text-gray-400">Updated on 2024-10-01</p>
+            <div className="flex justify-center items-stretch space-x-6">
+              {aiData.map((ai) => (
+                <div key={ai.name} className="w-1/3">
+                  <AIScoreCard name={ai.name} score={ai.score} history={ai.history} color={ai.color} />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
+        {activeSection === 'about' && <About />}
       </div>
+      <Footer />
     </div>
   );
 };

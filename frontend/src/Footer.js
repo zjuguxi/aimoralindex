@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Footer = () => {
+const Footer = ({ setActiveSection }) => {
   return (
     <footer className="bg-gray-800 text-gray-100 p-4 mt-8">
       <div className="container mx-auto text-center">
@@ -8,7 +8,12 @@ const Footer = () => {
           <a href="#copyright" className="hover:text-blue-300">© 2024 AI Morality Index</a>
           <a href="#privacy-policy" className="hover:text-blue-300">Privacy Policy</a>
           <a href="#terms-of-use" className="hover:text-blue-300">Terms of Use</a>
-          <a href="#contact-info" className="hover:text-blue-300">Contact Info</a>
+          <button 
+            onClick={() => setActiveSection('contact')} 
+            className="hover:text-blue-300"
+          >
+            Contact Info
+          </button>
         </div>
         <p className="text-sm text-gray-500">All rights reserved.</p>
       </div>

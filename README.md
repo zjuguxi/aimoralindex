@@ -2,6 +2,8 @@
 
 # AI Morality Index
 
+**Site:** https://aimoralindex.netlify.app/
+
 The **AI Morality Index** is a project designed to compare the ethical and legal awareness of three popular AI models: ChatGPT, Claude, and Gemini. By automating the process of posing ethical and legal questions to these AIs and scoring their responses based on predefined criteria, the project offers a clear comparison of their performance.
 
 This system includes a backend that manages the querying and scoring of AI responses, as well as a frontend that presents the results in an interactive and visually engaging way. The goal of the project is to assess how well each AI model aligns with established moral and legal standards, providing insights into their strengths and weaknesses in these critical areas.

@@ -1,0 +1,8 @@
+[build]
+  publish = "public/"
+  functions = "functions/"
+
+[[redirects]]
+  from = "/api/scores"
+  to = "/.netlify/functions/get_ai_scores"
+  status = 200

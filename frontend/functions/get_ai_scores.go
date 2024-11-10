@@ -8,10 +8,20 @@ import (
 	"os"
 	"time"
 
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+func init() {
+	// Load .env file
+	if err := godotenv.Load(); err != nil {
+		log.Println("Warning: .env file not found, relying on environment variables")
+	}
+}
 
 type DailyScore struct {
 	Date      time.Time `json:"date"`
@@ -85,9 +95,17 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	r := mux.NewRouter()
+	r.HandleFunc("/", handler).Methods("GET")
+	// 使用CORS允许从特定源的请求
+	corsObj := handlers.CORS(
+		handlers.AllowedOrigins([]string{"http://localhost:3000"}),
+		handlers.AllowedOrigins([]string{"https://aimoralindex.netlify.app"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS"}),
+	)
 	log.Println("Starting server on port 8080")
 	http.HandleFunc("/", handler)
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":8080", corsObj(r)); err != nil {
 		log.Fatal("Server failed to start:", err)
 	}
 }

@@ -17,7 +17,7 @@ const App = () => {
   const [aiData, setAiData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080')
+    axios.get(process.env.REACT_APP_API_URL)
       .then(response => {
         const formattedData = response.data.map(item => ({
           date: new Date(item.date).toLocaleDateString(),

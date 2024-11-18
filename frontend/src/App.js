@@ -17,7 +17,8 @@ const App = () => {
   const [aiData, setAiData] = useState([]);
 
   useEffect(() => {
-    axios.get(process.env.API_URL)
+    // 使用 REACT_APP_API_URL
+    axios.get(process.env.REACT_APP_API_URL)
       .then(response => {
         const formattedData = response.data.map(item => ({
           date: new Date(item.date).toLocaleDateString(),
@@ -60,17 +61,17 @@ const App = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
               <AIScoreCard 
                 name="ChatGPT" 
-                score={aiData[aiData.length - 1]?.chatGPT || 0} // 提取最新的 ChatGPT 分数或设置默认值 0
+                score={aiData[aiData.length - 1]?.chatGPT || 0}
                 data={aiData.map(d => ({ date: d.date, score: d.chatGPT }))}
               />
               <AIScoreCard 
                 name="Claude" 
-                score={aiData[aiData.length - 1]?.claude || 0} // 提取最新的 Claude 分数或设置默认值 0
+                score={aiData[aiData.length - 1]?.claude || 0}
                 data={aiData.map(d => ({ date: d.date, score: d.claude }))}
               />
               <AIScoreCard 
                 name="Gemini" 
-                score={aiData[aiData.length - 1]?.gemini || 0} // 提取最新的 Gemini 分数或设置默认值 0
+                score={aiData[aiData.length - 1]?.gemini || 0}
                 data={aiData.map(d => ({ date: d.date, score: d.gemini }))}
               />
             </div>

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gorilla/handlers"
@@ -95,16 +96,21 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// 从环境变量读取允许的跨域地址
+	allowedOrigins := os.Getenv("ALLOWED_ORIGINS")
+	origins := strings.Split(allowedOrigins, ",") // 用逗号分隔多个地址
+
 	r := mux.NewRouter()
 	r.HandleFunc("/", handler).Methods("GET")
-	// 使用CORS允许从特定源的请求
+
+	// 设置 CORS
 	corsObj := handlers.CORS(
-		handlers.AllowedOrigins([]string{"http://localhost:3000"}),
-		handlers.AllowedOrigins([]string{"https://aimoralindex.netlify.app"}),
+		handlers.AllowedOrigins(origins),
 		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"Authorization", "Content-Type"}),
 	)
+
 	log.Println("Starting server on port 8080")
-	http.HandleFunc("/", handler)
 	if err := http.ListenAndServe(":8080", corsObj(r)); err != nil {
 		log.Fatal("Server failed to start:", err)
 	}

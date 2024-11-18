@@ -1,4 +1,7 @@
 [build]
+  base    = "frontend"
+  command = "npm run build"
+  publish = "build"
   functions = "netlify/functions"
 
 [[redirects]]

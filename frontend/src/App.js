@@ -21,7 +21,11 @@ const App = () => {
     axios.get(process.env.REACT_APP_API_URL)
       .then(response => {
         const formattedData = response.data.map(item => ({
-          date: new Date(item.date).toLocaleDateString(),
+          date: new Date(item.date).toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          }),
           chatGPT: item.chatgpt,
           claude: item.claude,
           gemini: item.gemini,

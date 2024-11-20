@@ -1,6 +1,6 @@
 {
   "name": "aimoralindex",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.6.0",

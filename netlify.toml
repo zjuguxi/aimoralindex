@@ -1,8 +1,7 @@
 [build]
-  base    = "netlify"
-  command = "npm install --prefix ../frontend && npm run build --prefix ../frontend"
-  publish = "../frontend/build"
-  functions = "functions"
+  command = "npm install --prefix frontend && npm run build --prefix frontend"
+  publish = "frontend/build"
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/api/scores"

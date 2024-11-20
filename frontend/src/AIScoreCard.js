@@ -11,7 +11,7 @@ const getScoreAttributes = (score) => {
   }
 };
 
-const AIScoreCard = ({ name, score, history }) => {
+const AIScoreCard = ({ name, score, data }) => {
   const { color: scoreColor, label } = getScoreAttributes(score);
 
   return (
@@ -24,7 +24,7 @@ const AIScoreCard = ({ name, score, history }) => {
         <div className="text-center font-bold text-2xl mb-4 text-gray-800">{name}</div>
         <div className="h-[100px] w-full">
           <ResponsiveContainer width="100%" height={100}>
-            <LineChart data={history}>
+            <LineChart data={data}>
               <Line type="monotone" dataKey="score" stroke={scoreColor} strokeWidth={2} dot={false} />
               <Tooltip 
                 contentStyle={{ background: 'rgba(51, 51, 51, 0.8)', border: '1px solid #e0e0e0', color: '#f5f5f5' }}

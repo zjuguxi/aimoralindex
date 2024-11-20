@@ -26,6 +26,10 @@ const App = () => {
           claude: item.claude,
           gemini: item.gemini,
         }));
+
+        // 按日期排序
+        formattedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
         setAiData(formattedData);
       })
       .catch(error => {

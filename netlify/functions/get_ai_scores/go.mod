@@ -5,9 +5,7 @@ go 1.19
 require (
 	github.com/joho/godotenv v1.5.1 // direct
 	go.mongodb.org/mongo-driver v1.17.1 // direct
-)
-
-require (
+	github.com/aws/aws-lambda-go v1.47.0
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect

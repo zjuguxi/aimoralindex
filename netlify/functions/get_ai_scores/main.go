@@ -8,6 +8,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -29,15 +31,18 @@ type DailyScore struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func Handler(w http.ResponseWriter, r *http.Request) {
+// Handler 函数按照 AWS Lambda 的要求进行签名
+func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	log.Println("Received a request at handler")
 
 	// 从环境变量中读取 MongoDB URL
 	mongoURL := os.Getenv("MONGO_URL")
 	if mongoURL == "" {
 		log.Println("Error: MongoDB URL not set")
-		http.Error(w, "MongoDB URL not set", http.StatusInternalServerError)
-		return
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       "MongoDB URL not set",
+		}, nil
 	}
 	log.Println("MongoDB URL retrieved from environment variable")
 
@@ -45,8 +50,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(mongoURL))
 	if err != nil {
 		log.Println("Error: Failed to connect to MongoDB:", err)
-		http.Error(w, "Failed to connect to database", http.StatusInternalServerError)
-		return
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       "Failed to connect to database",
+		}, nil
 	}
 	defer func() {
 		if err := client.Disconnect(context.TODO()); err != nil {
@@ -68,26 +75,40 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	cursor, err := collection.Find(context.TODO(), filter)
 	if err != nil {
 		log.Println("Error: Database query failed:", err)
-		http.Error(w, "Database query error", http.StatusInternalServerError)
-		return
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       "Database query error",
+		}, nil
 	}
 
 	var results []DailyScore
 	if err := cursor.All(context.TODO(), &results); err != nil {
 		log.Println("Error: Failed to decode query results:", err)
-		http.Error(w, "Error fetching results", http.StatusInternalServerError)
-		return
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       "Error fetching results",
+		}, nil
 	}
 
 	log.Printf("Successfully fetched %d records from MongoDB\n", len(results))
 
 	// 返回结果
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(results); err != nil {
+	responseBody, err := json.Marshal(results)
+	if err != nil {
 		log.Println("Error: Failed to encode response to JSON:", err)
-		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
-		return
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       "Failed to encode response",
+		}, nil
 	}
 
 	log.Println("Response successfully sent")
+	return events.APIGatewayProxyResponse{
+		StatusCode: http.StatusOK,
+		Body:       string(responseBody),
+	}, nil
+}
+
+func main() {
+	lambda.Start(Handler)
 }

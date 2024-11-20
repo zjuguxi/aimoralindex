@@ -1,7 +1,8 @@
 [build]
-  command = "go build -o netlify/functions/get_ai_scores/netlify/functions/get_ai_scores/main.go && cd frontend && npm run build"
-  publish = "frontend/build"
-  functions = "netlify/functions"
+  base    = "netlify"
+  command = "npm run build --prefix ../frontend"
+  publish = "../frontend/build"
+  functions = "functions"
 
 [[redirects]]
   from = "/api/scores"
